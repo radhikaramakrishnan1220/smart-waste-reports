@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Waste Reporter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6b8e23, #98fb98);
+      padding: 20px;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      background-color: #2f4f4f;
+      color: white;
+      cursor: pointer;
+    }
+    .report {
+      margin-top: 30px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧹 Smart Waste Reporter</h1>
+
+  <label for="location">Location:</label>
+  <input type="text" id="location" placeholder="Enter location or area name" />
+
+  <label for="description">Description:</label>
+  <textarea id="description" rows="4" placeholder="Describe the issue..."></textarea>
+
+  <label for="image">Upload Photo (optional):</label>
+  <input type="file" id="image" accept="image/*" />
+
+  <button onclick="submitReport()">Submit Report</button>
+
+  <div id="reports"></div>
+
+  <script>
+    function submitReport() {
+      const location = document.getElementById('location').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const imageFile = document.getElementById('image').files[0];
+
+      if (!location || !description) {
+        alert("Please enter location and description.");
+        return;
+      }
+
+      const reportDiv = document.createElement('div');
+      reportDiv.className = "report";
+      reportDiv.innerHTML = `
+        <h3>🗺️ Location: ${location}</h3>
+        <p>${description}</p>
+        <div class="photo"></div>
+      `;
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          reportDiv.querySelector('.photo').innerHTML = `<img src="${e.target.result}" alt="Waste Image" />`;
+        };
+        reader.readAsDataURL(imageFile);
+      }
+
+      document.getElementById('reports').prepend(reportDiv);
+
+      // Clear inputs
+      document.getElementById('location').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('image').value = '';
+    }
+  </script>
+</body>
+</html>
