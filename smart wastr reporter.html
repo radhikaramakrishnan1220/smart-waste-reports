@@ -10,14 +10,17 @@
       padding: 20px;
       color: #fff;
     }
+
     h1 {
       text-align: center;
     }
+
     label {
       margin-top: 15px;
       display: block;
       font-weight: bold;
     }
+
     input, textarea {
       width: 100%;
       padding: 10px;
@@ -26,6 +29,7 @@
       border: none;
       font-size: 16px;
     }
+
     button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -36,16 +40,59 @@
       color: white;
       cursor: pointer;
     }
+
     .report {
       margin-top: 30px;
       background-color: rgba(255, 255, 255, 0.1);
       padding: 15px;
       border-radius: 8px;
     }
+
     img {
       max-width: 100%;
       border-radius: 10px;
       margin-top: 10px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      color: #333;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      font-size: 1.05rem;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #000;
     }
   </style>
 </head>
@@ -64,6 +111,14 @@
   <button onclick="submitReport()">Submit Report</button>
 
   <div id="reports"></div>
+
+  <!-- Modal -->
+  <div id="thankYouModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      ✅ Your report has been successfully submitted. Our team will review the information and take appropriate action. <strong>Thank you for your help.</strong>
+    </div>
+  </div>
 
   <script>
     function submitReport() {
@@ -98,6 +153,27 @@
       document.getElementById('location').value = '';
       document.getElementById('description').value = '';
       document.getElementById('image').value = '';
+
+      // Show modal
+      const modal = document.getElementById('thankYouModal');
+      modal.style.display = "block";
+
+      // Auto-close after 15 seconds
+      setTimeout(() => {
+        closeModal();
+      }, 15000);
+    }
+
+    function closeModal() {
+      document.getElementById('thankYouModal').style.display = "none";
+    }
+
+    // Optional: Close modal when clicking outside the modal content
+    window.onclick = function(event) {
+      const modal = document.getElementById('thankYouModal');
+      if (event.target === modal) {
+        closeModal();
+      }
     }
   </script>
 </body>
